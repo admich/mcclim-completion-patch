@@ -1,0 +1,4 @@
+* Completion patch for McCLIM
+  This patch enable the chunkwise completion in [[https://github.com/McCLIM/McCLIM/][McCLIM]].
+  It use some functions from  [[https://github.com/franzinc/clim2][Franz CLIM]]
+  
