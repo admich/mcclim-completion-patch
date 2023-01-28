@@ -14,16 +14,17 @@
                                      (possibility-printer #'possibility-printer)
                                      (help-displays-possibilities t))
   (let ((so-far (make-array 1 :element-type 'character :adjustable t :fill-pointer 0))
-        (*accelerator-gestures* (append *help-gestures*
-                                        *possibilities-gestures*
-                                        *accelerator-gestures*)))
-    (with-input-position (stream)
+        (input-position (stream-scan-pointer stream)))
+    (with-dynamic-gestures (*accelerator-gestures* (append *help-gestures*
+                                                           *possibilities-gestures*
+                                                           *accelerator-gestures*
+                                                           *completion-gestures*))
       (flet ((insert-input (input)
                (adjust-array so-far (length input)
                              :fill-pointer (length input))
                (replace so-far input)
                ;; XXX: Relies on non-specified behavior of :rescan.
-               (replace-input stream input :rescan nil))
+               (replace-input stream input :rescan nil :buffer-start input-position))
              (read-possibility (stream possibilities)
                (unwind-protect
                     (handler-case
